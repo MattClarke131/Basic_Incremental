@@ -4,68 +4,68 @@ main.js
 
 //Everything that is saved is stored here
 var game = {
-	time: 													0,
+	time:                     0,
 	resources: {
-		"pollen": 										0,
-		"honey":											0,
-		"scienceHoney":								0,
-		"wax":												0,
+		"pollen":               0,
+		"honey":                0,
+		"scienceHoney":         0,
+		"wax":                  0,
 	},
 	gatherers: {
-		"totalBees":									0,
-		"freeBees":										0,
-		"workerBees":									0,
-		"scientistBees":							0,
+		"totalBees":            0,
+		"freeBees":             0,
+		"workerBees":           0,
+		"scientistBees":        0,
 	},
 	costs: {
-		"waxCost":										5,
-		"beesCost": 									2,
-		"honeycombCost":							8,
-		"laboratoryCost":							20,
-		"storageCellCost":						100,
+		"wax":                  5,
+		"bees":                 2,
+		"honeycomb":            8,
+		"laboratory":           20,
+		"storageCell":          100,
 	},
 	structures: {
-		"honeycomb": 									0,
-		"laboratories":								0,
-		"storageCell":								0,
+		"honeycomb":            0,
+		"laboratories":         0,
+		"storageCell":          0,
 	},
 	unlocks: {
 		//resources
-		"waxUnlock":									false,
-		"scienceHoneyUnlock":					false,
+		"wax":									false,
+		"scienceHoney":					false,
 
 		//gatherers
-		"gatherersUnlock":						false,
-		"workerBeesUnlock":						false,
-		"scientistBeesUnlock":				false,
+		"gatherers":						false,
+		"workerBees":						false,
+		"scientistBees":				false,
 
 		//structures
-		"structuresUnlock":						false,
-		"laboratoriesUnlock":					false,
-		"storageCellUnlock":					false,
+		"structures":						false,
+		"laboratories":					false,
+		"storageCell":					false,
 
 		//actions
-		"spawnBeeButtonUnlock":				false,
-		"makeScienceButtonUnlock":		false,
-		"constructHoneycombUnlock":		false,
-		"constructLaboratoryUnlock":	false,
-		"constructStorageCellUnlock":	false,
+		"spawnBeeButton":       false,
+		"makeScienceButton":    false,
+		"constructHoneycomb":   false,
+		"constructLaboratory":  false,
+		"constructStorageCell": false,
 
 		//science
-		"science_bar":								false,
-		"improvedFlightUnlock":				false,
+		"scienceBar":           false,
+		"improvedFlight":       false,
 
 	},
 	upgrades: {
-		"improvedFlight":	false,
+		"improvedFlight":       false,
 	},
 	// maximum values for resources and gatherers
 	maxValues: {
-		"maxBees":					0,
-		"maxPollen":				1000,
-		"maxHoney":					1000,
-		"maxScienceHoney":	1000,
-		"maxWax":						1000,
+		"maxBees":              0,
+		"maxPollen":            1000,
+		"maxHoney":             1000,
+		"maxScienceHoney":      1000,
+		"maxWax":               1000,
 	},
 }
 
@@ -107,10 +107,10 @@ function updateHTML() {
 
 function calculateValues() {
 	game.maxValues.maxBees = game.structures.honeycomb;
-	game.costs.beesCost = Math.floor(2+Math.pow(1.5,game.gatherers.totalBees))
-	game.costs.honeycombCost =
+	game.costs.bees = Math.floor(2+Math.pow(1.5,game.gatherers.totalBees))
+	game.costs.honeycomb =
 		Math.floor(2+Math.pow(1.3,game.structures.honeycomb));
-	game.costs.storageCellCost =
+	game.costs.storageCell =
 		Math.floor(100+Math.pow(1.01,game.structures.storageCell));
 
 	game.maxValues.maxPollen = 200+1000*game.structures.storageCell;
@@ -151,7 +151,7 @@ function updateGatherersHTML() {
 function updateCostsHTML() {
 	for (var cost in game.costs) {
 		if (game.costs.hasOwnProperty(cost)) {
-				document.getElementById(cost).innerHTML = game.costs[cost];
+				document.getElementById(cost+"Cost").innerHTML = game.costs[cost];
 		}
 	}
 };
@@ -185,9 +185,12 @@ function updateUpgradesHTML() {
 function updateUnlocksHTML() {
 	for (var unlock in game.unlocks) {
 		if(game.unlocks[unlock]) {
-			document.getElementById(unlock).removeAttribute("hidden");
+			console.log("ERROR True: " + unlock + " is broken")
+			document.getElementById(unlock+"Unlock").removeAttribute("hidden");
 		} else {
-			document.getElementById(unlock).setAttribute("hidden",true);
+
+				console.log("ERROR False: " + unlock + " is broken")
+			document.getElementById(unlock+"Unlock").setAttribute("hidden",true);
 		}
 	}
 }
@@ -251,24 +254,24 @@ function makeHoney(amount) {
 }
 
 function refineWax(amount) {
-	if(game.resources.pollen >= game.costs.waxCost*amount && game.maxValues.maxWax > amount + game.resources.wax) {
-		game.resources.pollen -= game.costs.waxCost*amount;
+	if(game.resources.pollen >= game.costs.wax*amount && game.maxValues.maxWax > amount + game.resources.wax) {
+		game.resources.pollen -= game.costs.wax*amount;
 		game.resources.wax += amount;
-		game.unlocks.waxUnlock = true;
-		game.unlocks.constructHoneycombUnlock = true;
-		game.unlocks.constructLaboratoryUnlock = true;
+		game.unlocks.wax = true;
+		game.unlocks.constructHoneycomb = true;
+		game.unlocks.constructLaboratory = true;
 		updateHTML();
 	}
 }
 
 function spawnBee() {
-	if(game.resources.honey >= game.costs.beesCost && game.maxValues.maxBees > game.gatherers.totalBees) {
-		game.resources.honey -= game.costs.beesCost;
+	if(game.resources.honey >= game.costs.bees && game.maxValues.maxBees > game.gatherers.totalBees) {
+		game.resources.honey -= game.costs.bees;
 		game.gatherers.totalBees += 1;
 		game.gatherers.freeBees += 1;
 		game.gatherers.maxBees += 1;
-		game.unlocks.gatherersUnlock = true;
-		game.unlocks.workerBeesUnlock = true;
+		game.unlocks.gatherers = true;
+		game.unlocks.workerBees = true;
 		updateHTML();
 	}
 }
@@ -304,35 +307,35 @@ function unlockImprovedFlight() {
 }
 
 function constructHoneycomb() {
-	if(game.resources.wax >= game.costs.honeycombCost) {
-		game.resources.wax -= game.costs.honeycombCost;
+	if(game.resources.wax >= game.costs.honeycomb) {
+		game.resources.wax -= game.costs.honeycomb;
 		game.structures.honeycomb += 1;
-		game.unlocks.structuresUnlock = true;
-		game.unlocks.spawnBeeButtonUnlock = true;
-		game.unlocks.constructStorageCellUnlock = true;
+		game.unlocks.structures = true;
+		game.unlocks.spawnBeeButton = true;
+		game.unlocks.constructStorageCell = true;
 		updateHTML();
 	}
 }
 
 function constructLaboratory() {
-	if(game.resources.wax >= game.costs.laboratoryCost) {
-		game.resources.wax -= game.costs.laboratoryCost;
+	if(game.resources.wax >= game.costs.laboratory) {
+		game.resources.wax -= game.costs.laboratory;
 		game.structures.laboratories += 1;
-		game.unlocks.laboratoriesUnlock = true;
-		game.unlocks.constructLaboratoryUnlock = true;
-		game.unlocks.scientistBeesUnlock = true;
-		game.unlocks.makeScienceButtonUnlock = true;
-		game.unlocks.scienceHoneyUnlock = true;
-		game.unlocks.science_bar = true;
-		game.unlocks.improvedFlightUnlock = true;
+		game.unlocks.laboratories = true;
+		game.unlocks.constructLaboratory = true;
+		game.unlocks.scientistBees = true;
+		game.unlocks.makeScienceButton = true;
+		game.unlocks.scienceHoney = true;
+		game.unlocks.scienceBar = true;
+		game.unlocks.improvedFlight = true;
 	}
 }
 
 function constructStorageCell() {
-	if (game.resources.wax >= game.costs.storageCellCost)	{
-		game.resources.wax -= game.costs.storageCellCost;
+	if (game.resources.wax >= game.costs.storageCell)	{
+		game.resources.wax -= game.costs.storageCell;
 		game.structures.storageCell += 1;
-		game.unlocks.storageCellUnlock = true;
+		game.unlocks.storageCell = true;
 	}
 }
 
