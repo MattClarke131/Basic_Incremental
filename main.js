@@ -31,18 +31,18 @@ var game = {
 	},
 	unlocks: {
 		//resources
-		"wax":									false,
-		"scienceHoney":					false,
+		"wax":                  false,
+		"scienceHoney":         false,
 
 		//gatherers
-		"gatherers":						false,
-		"workerBees":						false,
-		"scientistBees":				false,
+		"gatherers":            false,
+		"workerBees":           false,
+		"scientistBees":        false,
 
 		//structures
-		"structures":						false,
-		"laboratories":					false,
-		"storageCell":					false,
+		"structures":           false,
+		"laboratories":         false,
+		"storageCell":          false,
 
 		//actions
 		"spawnBeeButton":       false,
