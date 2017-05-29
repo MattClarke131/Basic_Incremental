@@ -228,6 +228,13 @@ var importSave = function() {
 	updateHTML();
 };
 
+// Non-button game functions
+function unlock() {
+	for (i=0;i<arguments.length;i++) {
+		game.unlocks[arguments[i]] = true;
+	}
+}
+
 
 // Button Functions
 function gatherPollen(amount) {
@@ -249,9 +256,7 @@ function refineWax(amount) {
 	if(game.resources.pollen >= game.costs.wax*amount && game.maxValues.maxWax > amount + game.resources.wax) {
 		game.resources.pollen -= game.costs.wax*amount;
 		game.resources.wax += amount;
-		game.unlocks.wax = true;
-		game.unlocks.constructHoneycomb = true;
-		game.unlocks.constructLaboratory = true;
+		unlock('wax','constructHoneycomb','constructLaboratory');
 		updateHTML();
 	}
 }
@@ -262,8 +267,7 @@ function spawnBee() {
 		game.gatherers.totalBees += 1;
 		game.gatherers.freeBees += 1;
 		game.gatherers.maxBees += 1;
-		game.unlocks.gatherers = true;
-		game.unlocks.workerBees = true;
+		unlock('gatherers','workerBees');
 		updateHTML();
 	}
 }
@@ -302,9 +306,7 @@ function constructHoneycomb() {
 	if(game.resources.wax >= game.costs.honeycomb) {
 		game.resources.wax -= game.costs.honeycomb;
 		game.structures.honeycomb += 1;
-		game.unlocks.structures = true;
-		game.unlocks.spawnBeeButton = true;
-		game.unlocks.constructStorageCell = true;
+		unlock('structures','spawnBeeButton','constructStorageCell');
 		updateHTML();
 	}
 }
@@ -313,13 +315,8 @@ function constructLaboratory() {
 	if(game.resources.wax >= game.costs.laboratory) {
 		game.resources.wax -= game.costs.laboratory;
 		game.structures.laboratories += 1;
-		game.unlocks.laboratories = true;
-		game.unlocks.constructLaboratory = true;
-		game.unlocks.scientistBees = true;
-		game.unlocks.makeScienceButton = true;
-		game.unlocks.scienceHoney = true;
-		game.unlocks.scienceBar = true;
-		game.unlocks.improvedFlight = true;
+		unlock('laboratories','constructLaboratory','scientistBees',
+		'makeScienceButton','scienceHoney','scienceBar','improvedFlight');
 	}
 }
 
@@ -327,7 +324,7 @@ function constructStorageCell() {
 	if (game.resources.wax >= game.costs.storageCell)	{
 		game.resources.wax -= game.costs.storageCell;
 		game.structures.storageCell += 1;
-		game.unlocks.storageCell = true;
+		unlock('storageCell');
 	}
 }
 
