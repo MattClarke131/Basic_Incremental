@@ -138,12 +138,7 @@ function updateResourcesHTML() {
 function updateGatherersHTML() {
 	for (var gatherer in game.gatherers) {
 		if (game.gatherers.hasOwnProperty(gatherer)) {
-			try {
 				document.getElementById(gatherer).innerHTML = game.gatherers[gatherer];
-			}
-			catch (e) {
-				console.log("ERROR: " + gatherer + " was not updated");
-			}
 		}
 	}
 };
