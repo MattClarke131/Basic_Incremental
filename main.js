@@ -180,11 +180,8 @@ function updateUpgradesHTML() {
 function updateUnlocksHTML() {
 	for (var unlock in game.unlocks) {
 		if(game.unlocks[unlock]) {
-			console.log("ERROR True: " + unlock + " is broken")
 			document.getElementById(unlock+"Unlock").removeAttribute("hidden");
 		} else {
-
-				console.log("ERROR False: " + unlock + " is broken")
 			document.getElementById(unlock+"Unlock").setAttribute("hidden",true);
 		}
 	}
